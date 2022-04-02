@@ -1,0 +1,41 @@
+// ==============================================
+// CSS Variables
+// ==============================================
+
+@use 'variables' as var;
+
+:root {
+  // grids
+  --grid-system-column-base: 6;
+  --grid-system-gap-base: 30;
+
+  // font
+  --default-font-size: 16px;
+
+  // colors
+  --color-primary: #11E05B;
+  --color-primary-dark: #05B443;
+  --color-secundary: #111;
+  --color-terciary: #2B2B2B;
+  --color-darkmeta: #868686;
+  --color-meta: #A9A9A9;
+  --color-light: #F5F5F5;
+  --color-white: #FFF;
+  --color-warning: #b81c23;
+  --color-alert: #017ef2;
+  --color-success: #38ab89;
+  --color-shine: #ffc107;
+
+  // logo
+  --logo-base-height: 40px;
+  --logo-base-margin: 7.5px;
+
+  --logo-current-height: var(--logo-base-height);
+  --logo-current-margin: var(--logo-base-margin);
+
+  @media (min-width: var.$screen-small) {
+    // logo
+    --logo-base-height: 30px;
+    --logo-base-margin: 20px;
+  }
+}

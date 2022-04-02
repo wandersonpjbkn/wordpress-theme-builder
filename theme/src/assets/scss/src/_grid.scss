@@ -1,0 +1,33 @@
+// ==============================================
+// Grid styles
+// ==============================================
+
+@use "sass:math";
+
+@use 'variables' as var;
+@use 'mixins' as mix;
+
+.grid {
+  // --1, --2, --3, etc.
+  @for $i from 1 through var.$default-grid-system {    
+    &--#{$i} { @include mix.breakpoints { @include mix.grid( #{repeat(#{$i}, 1fr)} ); } }
+  }
+
+  $col-widths: ();
+
+  // --1-2, --2-3, --3-2, etc.
+  @for $i from 1 through var.$default-grid-system {
+    @for $j from 1 through $i {
+      $w: math.div( $j, $i );
+      
+      @if not index( $col-widths, $w ) {
+        @if $j != $i {        
+          &--#{$j}-#{$i} { @include mix.breakpoints { @include mix.grid( #{#{$j}fr #{$i}fr} ); } }
+          &--#{$i}-#{$j} { @include mix.breakpoints { @include mix.grid( #{#{$i}fr #{$j}fr} ); } }
+  
+          $col-widths: append( $col-widths, $w, comma );
+        }
+      }
+    }
+  }
+}

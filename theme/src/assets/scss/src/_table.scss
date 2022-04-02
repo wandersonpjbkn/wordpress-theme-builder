@@ -1,0 +1,43 @@
+// ==============================================
+// Table style
+// ==============================================
+
+@use "sass:math";
+
+@use 'variables' as var;
+
+.table,
+.wp-block-table table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: var.$default-padding;
+  background-color: rgba(#fff, 0);
+
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: math.div(var.$default-padding, 2);
+    vertical-align: middle;
+    border-top: #{math.div(var.$default-bottom-width, 2)} solid var(--color-meta);
+  }
+
+  th { text-align: inherit; }
+
+  thead th {
+    vertical-align: bottom;
+    border-top: var.$default-bottom-width solid var(--color-meta);
+  }
+
+  tbody + tbody {
+    border-top: var.$default-bottom-width solid var(--color-meta);
+  }
+
+  .table {
+    background-color: var(--color-darkmeta);
+  }
+
+  &--shrink { width: 1px; }
+
+  &--expand { min-width: 150px; }
+}

@@ -1,0 +1,9 @@
+// ==============================================
+// Form functions
+// ==============================================
+
+@use 'mixins' as mix;
+
+.form {
+  button { @include mix.is-clickable() }
+}

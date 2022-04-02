@@ -1,0 +1,193 @@
+// ==============================================
+// Carousel styles
+// ==============================================
+
+@use 'variables' as var;
+@use 'mixins' as mix;
+
+.carousel {
+  position: relative;
+
+  .shifting { transition: left .35s ease-out; }
+
+  .dragging {
+    cursor: grabbing;
+
+    > div {
+      cursor: grabbing;
+      pointer-events: none;
+    }
+  }
+
+  &__wrapper {
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  &__slides {
+    @include mix.is-flex();
+
+    position: relative;
+    left: 0;
+  }
+
+  &__slide {
+    @include mix.is-hero-image();
+
+    height: calc(100vw * .3671875);
+
+    &:not(.tns-item) { flex: 0 0 100%; }
+
+    &--container {
+      display: block;
+      height: inherit;
+      
+      text-decoration: none;
+    }
+  }
+
+  &__card,
+  &__testimonial {
+    overflow: hidden;
+
+    &:not(.tns-item) { flex: 0 0 calc(25% - 30px); }
+  }
+
+  &__testimonial {
+    &--avatar { @include mix.is-avatar(); }
+    
+    &--name { margin: 10px 0 0; }
+    
+    &--company { margin: 0 0 15px; }
+    
+    &--description { margin: 0; }
+  }
+
+  &__highlighted {
+    &--image {
+      @include mix.is-avatar( $size: 195px );
+
+      border: 1px solid var(--color-primary);
+
+      [class*="--title"] {
+        top: 0;
+      }
+
+      @media (min-width: var.$screen-medium) {
+        [class*="--title"] {
+          top: 100%;
+        }
+
+        &:hover [class*="--title"] {
+          top: 0;
+        }
+      }
+    }
+
+    &--title {
+      $size: 100%;
+
+      @include mix.is-clickable();
+
+      left: 0;
+
+      width: $size;
+      height: $size;
+      padding: 20px;
+      box-sizing: border-box;
+      background-color: var(--color-primary);
+      opacity: .85;
+
+      color: var(--color-secundary);
+      font: {
+        style: italic;
+        weight: bold;
+        size: 1.25em;
+      }
+
+      justify-content: center;
+      transition: top .35s ease-out;
+
+      &::before {
+        content: '#';
+        margin-right: 5px;
+      }
+    }
+  }
+
+  &__ctrl {
+    @include mix.is-flex();
+    @include mix.is-nav-control {
+      &.dots { justify-content: center; }
+
+      > .dot:not(:last-child) { margin-right: 20px; }
+
+      @media (min-width: var.$screen-small) {
+        > .dot:not(:last-child) { margin-right: 10px; }
+      }
+    }
+  }
+
+  &__dot,
+  &__btn { @include mix.is-nav-control-btns(); }
+
+  &__dot {
+    $size: 20px;
+
+    @include mix.is-clickable();
+
+    width: $size;
+    height: $size;
+    border-radius: 50%;
+    background-color: var(--color-meta);
+    opacity: .75;
+
+    &:hover { opacity: 1; }
+
+    &[class*="active"] {
+      background-color: var(--color-primary);
+      opacity: 1;
+    }
+
+    @media (min-width: var.$screen-small) {
+      $size: 15px;
+
+      width: $size;
+      height: $size;
+    }
+  }
+
+  &__btn {
+    position: relative;
+
+    width: 35px;
+    height: 100%;
+    background-color: rgba(#fff, 0);
+  }
+
+  &__progress {
+    position: absolute;
+    bottom: 0;
+
+    width: 100%;
+    height: 3px;
+    border: none;
+    background-color: var(--color-light); // firefox fallback
+
+    &[value] {
+      appearance: none;
+
+      // chrome fallback
+      &::-webkit-progress-bar { background-color: var(--color-light); }
+      &::-webkit-progress-value { background-color: var(--color-primary); }
+
+      // firefox fallback
+      &::-moz-progress-bar { background-color: var(--color-primary); }
+
+      // ie
+      color: var(--color-primary);
+    }
+  }
+
+  img.lazy { @include mix.placeholder-image() }
+}

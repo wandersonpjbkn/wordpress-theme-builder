@@ -1,0 +1,20 @@
+// ==============================================
+// Hero Image style
+// ==============================================
+
+@use 'variables' as var;
+@use 'mixins' as mix;
+
+.hero {
+  &__container { width: 100%; }
+
+  &__image {
+    @include mix.is-hero-image();
+
+    height: calc(100vw * .182);
+    border-bottom: #{var.$default-bottom-width} solid var(--color-primary);
+    box-sizing: border-box;
+
+    img.lazy { @include mix.placeholder-image() }
+  }
+}

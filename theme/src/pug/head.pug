@@ -1,0 +1,112 @@
+| <?php
+| 
+| // ==============================================
+| // Template Part: Head 
+| // ==============================================
+| 
+| defined( 'ABSPATH' ) || exit;
+| 
+| ?>
+
+doctype html
+
+html(
+  lang="pt-br"
+)
+
+  head
+
+    //- Default
+    meta(
+      charset="UTF-8"
+    )
+    meta(
+      http-equiv="X-UA-Compatible"
+      content="IE=edge"
+    )
+    meta(
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    )
+
+    //- WP headers
+    | <?php wp_head(); ?>
+      
+    //- Icons
+    meta(
+      name="msapplication-TileImage"
+      content!="<?= esc_url( get_template_directory_uri() . '/img/icons/msapplication-icon-144x144.png' ) ?>"
+    )
+    link(
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href!="<?= esc_url( get_template_directory_uri() . '/img/icons/favicon-32x32.png' ) ?>"
+    )
+    link(
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href!="<?= esc_url( get_template_directory_uri() . '/img/icons/favicon-16x16.png' ) ?>"
+    )
+    link(
+      rel="apple-touch-icon"
+      href!="<?= esc_url( get_template_directory_uri() . '/img/icons/apple-touch-icon-152x152.png' ) ?>"
+    )
+    link(
+      rel="mask-icon"
+      href!="<?= esc_url( get_template_directory_uri() . '/img/icons/safari-pinned-tab.svg' ) ?>"
+      color="#11E05B"
+    )
+    link(
+      rel="shortcut icon"
+      href!="<?= esc_url(  get_template_directory_uri() . '/favicon.ico' ) ?>"
+    )
+    
+    | <!--[if IE]><link rel="icon" href="<?= esc_url( get_template_directory_uri() . '/favicon.ico' ) ?>"><![endif]-->
+
+    //- Colors
+    meta(
+      name="theme-color"
+      content="#11E05B"
+    )
+    meta(
+      name="msapplication-TileColor"
+      content="#111111"
+    )
+    meta(
+      name="apple-mobile-web-app-status-bar-style"
+      content="#11E05B"
+    )
+    meta(
+      name="apple-mobile-web-app-title"
+      content="Website Theme Builder"
+    )
+
+    //- noscript
+    noscript
+
+      link(
+        rel="stylesheet"
+        href!="<?= esc_url( get_template_directory_uri() . '/css/noscript.min.css' ) ?>"
+      )
+
+    //- Fonts
+    - for (const font of fonts)
+      link(
+        rel="preload"
+        href!="<?= esc_url( get_template_directory_uri() . '/fonts/" + font.href + "') ?>"
+        as="font"
+        type=font.type
+        crossorigin
+      )
+
+    //- Style
+    link(
+      rel="stylesheet"
+      href!="<?= esc_url( get_template_directory_uri() . '/css/' . THEME_STYLE . '?ver=' . THEME_VERSION ) ?>"
+    )
+
+    //- Website title
+    title
+      | <?= wp_title() ?>

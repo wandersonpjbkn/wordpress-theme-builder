@@ -1,0 +1,86 @@
+// ==============================================
+// List Description style
+// ==============================================
+
+@use "sass:math";
+
+@use 'variables' as var;
+@use 'mixins' as mix;
+
+.dl {
+  counter-reset: dl-counter;
+
+  &.backwards {
+    dt::before { counter-increment: dl-counter -1; }
+  }
+
+  dt {
+    @include mix.is-nav-link();
+
+    position: relative;
+
+    padding: math.div(var.$default-padding, 2);
+    background-color: var(--color-light);
+    border: 1px solid var(--color-meta);
+    border-bottom-width: 0;
+    transition: .35s;
+
+    font-size: .75em;
+
+    &::before {
+      counter-increment: dl-counter;
+      content: "#"counter(dl-counter);
+
+      margin-right: 5px;
+    }
+
+    &::after {
+      $size: 5px;
+
+      content: '';
+
+      position: absolute;
+      top: 50%;
+      right: math.div(var.$default-padding, 2);
+
+      display: block;
+      width: 0;
+      height: 0;
+      border-top: $size solid var(--color-terciary);
+      border-left: $size solid rgba(#fff, 0);
+      border-right: $size solid rgba(#fff, 0);
+
+      transition: .45s ease;
+    }
+
+    &.active {
+      border-bottom-width: 1px;
+
+      &::after { transform: rotate(90deg); }
+    }
+
+    @media (min-width: var.$screen-small) {
+      font-size: 1em;
+    }
+  }
+
+  dd {
+    $border: 1px solid var(--color-meta);
+
+    margin: 0;
+
+    height: 0;
+    overflow-y: hidden;
+    border-left: $border;
+    border-right: $border;
+
+    &:last-of-type {
+      border-bottom: $border;
+    }
+
+    > * {
+      margin: 0;
+      padding: var.$default-padding;
+    }
+  }
+}

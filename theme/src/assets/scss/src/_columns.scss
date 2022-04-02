@@ -1,0 +1,31 @@
+// ==============================================
+// Width styles (columns)
+// ==============================================
+
+@use "sass:math";
+
+@use 'variables' as var;
+@use 'mixins' as mix;
+
+.col {
+  // https://coderwall.com/p/sxd9aq/loop-in-sass-for-basic-grid-system
+  // https://sass-lang.com/documentation/at-rules/control/each
+
+  &--1 { @include mix.breakpoints { @include mix.flex-width( 1 ); } }
+
+  $col-widths: ();
+
+  @for $i from 1 through var.$default-grid-system {
+    @for $j from 1 through $i {
+      $w: math.div($j, $i);
+      
+      @if not index( $col-widths, $w ) {
+        @if $j != $i {
+          &--#{$j}-#{$i} { @include mix.breakpoints { @include mix.flex-width( $w ); } }
+          
+          $col-widths: append( $col-widths, $w, comma );
+        }
+      }
+    }
+  }
+}

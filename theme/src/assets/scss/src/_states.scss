@@ -1,0 +1,64 @@
+// ==============================================
+// States styles
+// ==============================================
+
+@use 'variables' as var;
+@use 'mixins' as mix;
+
+.is {
+  &__flex {
+    @include mix.breakpoints { @include mix.is-flex-wrap(); }
+    @include mix.is-flex-wrap();
+  
+    &--nowrap { 
+      @include mix.breakpoints { @include mix.is-flex(); }
+
+      @include mix.is-flex();
+    }
+  
+    &--center {
+      @include mix.is-flex-wrap();
+      
+      align-items: center;
+    }
+
+    &--row-reverse {
+      @include mix.is-flex-wrap();
+
+      flex-direction: row-reverse;
+    }
+  }
+
+  &__vertical { @include mix.is-vertical(); }
+
+  &__active { background-color: var(--color-primary); }
+
+  &__disabled { @include mix.is-disabled() }
+
+  &__clickable { @include mix.is-clickable() }
+
+  &__hidden { @include mix.breakpoints { display: none; } }
+
+  &__visible {
+    @include mix.breakpoints( $property-name: 'display', $var: 'none' ) {
+      display: block;
+    }
+  
+    display: block;
+  }
+
+  &__theme {
+    @each $theme in var.$themes {
+      &--#{$theme} { @include mix.theme( $theme ) }
+    }
+  }
+
+  &__centered {
+    &--flex {
+      justify-content: center;
+      align-items: center;
+    }
+
+    &--margin { margin: 0 auto; }
+  }
+}

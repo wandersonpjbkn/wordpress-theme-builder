@@ -1,0 +1,21 @@
+// ==============================================
+// Fonts-face register
+// ==============================================
+
+@use 'mixins' as mix;
+
+// Heading
+@font-face { @include mix.fontface( 'upbolters-new-regular' ) }
+@font-face { @include mix.fontface( 'upbolters-new-italic' ) }
+@font-face { @include mix.fontface( 'montserrat-semibold' ) }
+
+
+// Content
+@font-face { @include mix.fontface( 'montserrat-bold' ) }
+@font-face { @include mix.fontface( 'montserrat-medium' ) }
+@font-face { @include mix.fontface( 'montserrat-regular' ) }
+@font-face { @include mix.fontface( 'montserrat-light' ) }
+
+
+// Event: Black Friday
+// @font-face { @include mix.fontface( 'ds-digital' ) }

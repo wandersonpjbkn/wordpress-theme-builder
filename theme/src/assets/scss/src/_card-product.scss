@@ -1,0 +1,190 @@
+// ==============================================
+// Card Products styles
+// ==============================================
+
+@use 'variables' as var;
+@use 'mixins' as mix;
+
+.card__product {
+  position: relative;
+
+  display: block;
+
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    [class*='__wishlist'] { opacity: 1; }
+  }
+
+  &__label { @include mix.is-label() }
+
+  &__wishlist {
+    position: absolute;
+    top: 40px;
+    left: 10px;
+    z-index: 10;
+
+    min: {
+      width: 30px;
+      height: 30px;
+    }
+
+    opacity: 0;
+    transition: all .35s ease-in;
+
+    &:hover { transform: scale(1.1); }
+  }
+
+  &__image {
+    @include mix.is-hero-image( $fit: scale-down );
+
+    position: relative;
+
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+
+    &--container {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+    }
+
+    img.lazy { @include mix.placeholder-image() }
+
+    .item,
+    .usage {
+      transition: {
+        duration: .35s;
+        property: all;
+        timing-function: cubic-bezier(.45,.05,.55,.95);
+      };
+    }
+
+    .usage { display: none; }
+
+    @media (min-width: var.$screen-small) {
+      .usage {
+        display: block;
+        opacity: 0;
+        transform: scale(.65);
+      }
+
+      &:hover {
+        .item {
+          opacity: 0;
+          transform: scale(1.2);
+        }
+  
+        .usage {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+  }
+
+  &__title {
+    margin: {
+      top: 10px;
+      bottom: 5px;
+    }
+    
+    font: {
+      family: var.$font-action;
+      size: 0.95em;
+    }
+
+    text-transform: uppercase;
+    color: #484848;
+  }
+
+  &__price {
+    $space: 10px;
+
+    position: relative;
+
+    min-height: var.$default-btn-height + 5px;
+
+    align-items: center;
+    justify-content: space-between;
+    color: #484848;
+
+    &--quota {
+      display: flex;
+      flex-direction: column;
+      background-color: var(--color-white);
+      padding-left: $space;
+
+      font: {
+        family: var.$font-normal;
+        size: 1em;
+      }
+      text-align: right;
+
+      &::after {
+        content: '';
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: -1;
+
+        display: block;
+        width: 90%;
+        height: 2px;
+        background-color: var(--color-primary);
+
+        transform: translate(-50%, -50%);
+      }
+
+      + div {
+        background-color: var(--color-white);
+        padding-right: $space;
+      }
+
+      @media (min-width: var.$screen-small) {
+        font-size: .75em;
+      }
+    }
+
+    &--regular {
+      margin-bottom: 2.5px;
+
+      font: {
+        family: var.$font-action;
+        size: .75em;
+      }
+
+      > span {
+        position: relative;
+
+        ::after {
+          content: '';
+
+          position: absolute;
+          top: 50%;
+          left: 50%;
+
+          display: block;
+          width: 90%;
+          height: 2px;
+          background-color: var(--color-primary);
+
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+
+    &--sales {
+      font: {
+        family: var.$font-bold;
+        size: 1.25em;
+      }
+    }
+  }
+}

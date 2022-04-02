@@ -1,0 +1,55 @@
+// ==============================================
+// Stripe styles
+// ==============================================
+
+@use "sass:math";
+
+@use 'variables' as var;
+@use 'mixins' as mix;
+
+.stripe {
+  column-gap: math.div(var.$default-padding, 2);
+  align-items: center;
+
+  &__img {
+    @include mix.is-flex();
+
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__box {
+    @include mix.is-grid();
+    align-items: center;
+  }
+
+  &__title {
+    font: {
+      family: var.$font-normal;
+      size: .75em;
+    }
+
+    @media (min-width: var.$screen-small) {
+      font: {
+        family: var.$font-main;
+        size: 1em;
+      }
+    }
+  }
+
+  &__text {
+    display: none;
+    font: {
+      family: var.$font-normal;
+      size: .75em;
+    }
+
+    @media (min-width: var.$screen-small) {
+      display: block;
+    }
+  }
+
+  @media (min-width: var.$screen-small) {
+    column-gap: var.$default-padding;
+  }
+}

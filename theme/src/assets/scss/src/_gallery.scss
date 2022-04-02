@@ -1,0 +1,250 @@
+// ==============================================
+// Single Product Gallery styles
+// ==============================================
+
+@use 'variables' as var;
+@use 'mixins' as mix;
+
+.gallery {
+  $size-mobile: 40px;
+  $size-desktop: 80px;
+
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-template-areas: "target" "thumbs";
+  
+  @media (min-width: var.$screen-medium) {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: "thumbs target";
+    row-gap: 15px;
+    column-gap: 15px;
+  }
+
+  &__carousel {
+    margin: 0 auto;
+
+    display: grid;
+    grid-area: thumbs;
+    grid-template-rows: auto;
+    grid-template-columns: 40px 1fr 40px;
+    grid-template-areas: "prev nav next";
+    row-gap: 5px;
+    column-gap: 5px;
+    
+    &--btn {
+      width: $size-mobile;
+      padding: 0;
+      background-color: rgba(#fff, 0);
+      overflow: hidden;
+      
+      @media (min-width: var.$screen-medium) { width:$size-desktop; }
+    }
+    
+    @media (min-width: var.$screen-medium) {
+      margin: 0;
+
+      grid-template-areas: "prev" "nav" "next";
+      grid-template-rows: 35px 1fr 35px;
+      grid-template-columns: auto;
+    }
+  }
+
+  &__prev,
+  &__next {
+    @include mix.is-clickable();
+
+    position: relative;
+    
+    height: 35px;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+
+      position: absolute;
+      left: 50%;
+
+      display: block;
+      width: 15px;
+      height: 15px;
+      border: {
+        width: 0;
+        color: var(--color-meta);
+        style: solid;
+      }
+      box-sizing: border-box;
+
+      transform: translateX(-50%) rotate(-45deg);
+      transition: border-color .35s ease;
+
+      @media (min-width: var.$screen-medium) {
+        width: 35px;
+        height: 35px;
+      }
+    }
+    
+    &:hover::before { border-color: var(--color-primary); }
+  }
+
+  &__prev {
+    grid-area: prev;
+    
+    &::before {
+      top: calc((35px / 4) + 2px);
+
+      border: {
+        top-width: 2px;
+        left-width: 2px;
+      }
+
+      @media (min-width: var.$screen-medium) {
+        border: {
+          top-width: 2px;
+          left-width: 0;
+          right-width: 2px;
+        }
+      }
+    }
+  }
+  
+  &__next {
+    grid-area: next;
+    
+    &::before {
+      bottom: calc((35px / 4) + 2px);
+
+      border: {
+        bottom-width: 2px;
+        right-width: 2px;
+      }
+
+      @media (min-width: var.$screen-medium) {
+        border: {
+          bottom-width: 2px;
+          left-width: 2px;
+          right-width: 0;
+        }
+      }
+    }
+  }
+
+  &__wrapper {   
+    grid-area: nav;
+  }
+
+  &__nav {
+    position: relative;
+
+    display: flex;
+    width: 200px;
+    height: 60px;
+    overflow: hidden;
+
+    @media (min-width: var.$screen-medium) {
+      display: block;
+      width: $size-desktop;
+      height: 420px;
+    }
+
+    @media (max-width: 300) {
+      width: 80px;
+    }
+  }
+
+  &__thumb {
+    @include mix.is-clickable();
+    @include mix.is-hero-image();
+
+    height: $size-mobile;
+    border: {
+      style: solid;
+      color: rgba(#fff, 0);
+      width: 2px;
+    }
+
+    transition: border-color .35s ease;
+
+    img {
+      pointer-events: none;
+
+      &.lazy { @include mix.placeholder-image() }
+
+      @media (min-width: var.$screen-medium) {
+        &.lazy { @include mix.placeholder-image() }
+      }
+    }
+
+    &.active,
+    &:hover,
+    &:focus { border-color: var(--color-primary); }
+
+    @media (min-width: var.$screen-medium) {
+      height:$size-desktop;
+    }
+  }
+
+  &__video-target {
+    display: none;
+    grid-area: target;
+  }
+
+  &__thumb-target {
+    position: relative;
+    grid-area: target;
+
+    .image-changed { animation: fade-grow .35s ease; }
+  }
+
+  &__zoom {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+
+    display: none;
+    grid-template-rows: auto 1fr;
+    background-color: var(--color-white);
+    width: 100%;
+    height: 100%;
+
+    animation: fade-grow .35s ease;
+
+    &.active { display: grid; }
+    
+    &.close { animation: fade-grow .35s ease reverse; }
+
+    &--ctrl { @include mix.is-nav-control(); }
+
+    &--btn {
+      @include mix.is-nav-control-btns();
+      
+      position: relative;
+
+      width: 35px;
+      height: 100%;
+      background-color: rgba(#fff, 0);
+    }
+    
+    .pinch-zoom-container {
+      min-height: 100%; 
+    }
+
+    &--close {
+      $size: 15px;
+
+      padding: {
+        top: $size;
+        bottom: $size;
+      }
+    }
+
+    button.link {
+      $size: 30px;
+      min: {
+        width: $size;
+        height: $size;
+      }
+    }
+  }
+}

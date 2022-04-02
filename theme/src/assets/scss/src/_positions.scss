@@ -1,0 +1,128 @@
+// ==============================================
+// Positions styles
+// ==============================================
+
+@use "sass:math";
+
+@use 'variables' as var;
+@use 'mixins' as mix;
+
+.push {
+  &__left { @include mix.breakpoints { margin-right: auto; } }
+  &__right { @include mix.breakpoints { margin-left: auto; } }
+}
+
+.offset {
+  $directions: ( 'left', 'right' );
+
+  @each $direction in $directions {
+    &__#{$direction} {
+      $col-widths: ();
+  
+      @for $i from 1 through var.$default-grid-system {
+        @for $j from 1 through $i {
+          $w: math.div( $j, $i ) * 100%;
+          
+          @if not index( $col-widths, $w ) {
+            @if $j != $i {
+              &--#{$j}-#{$i} { @include mix.breakpoints { margin-#{$direction}: $w; } }
+  
+              $col-widths: append( $col-widths, $w, comma );
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.center { @include mix.breakpoints { margin: 0 auto; } }
+
+.margin {
+  $sizes: ( 'xsmall': 3, 'small': 2, 'medium': 1, 'large': .5 );
+  
+  @each $size, $var in $sizes {
+    &--#{$size} { @include mix.breakpoints { margin: math.div(var.$default-padding, $var); } }
+  }
+
+  @each $direction in var.$directions {
+    @if $direction != 'center' {
+      &__#{$direction} {
+        @each $size, $var in $sizes {
+          &--#{$size} { @include mix.breakpoints { margin: { #{$direction} : math.div(var.$default-padding, $var); } } }
+        }
+      }
+    }
+  }
+}
+
+.position {
+  &__relative { position: relative; }
+
+  &__absolute { position: absolute; }
+
+  &__fixed { position: fixed; }
+
+  // one condition
+  @each $i in var.$directions {
+    &__#{$i} {
+      position: absolute;
+      #{$i} : 0;
+    }
+  }
+
+  // two conditions
+  $directions-vertical: ( 'top', 'bottom' );
+  $directions-horizontal: ( 'left', 'right' );
+
+  @each $vertical in $directions-vertical {
+    &__#{$vertical} {
+      @each $horizontal in $directions-horizontal {
+        &--#{$horizontal} {
+          @include mix.breakpoints {
+            position: absolute;
+            #{$vertical} : 0;
+            #{$horizontal} : 0;
+          }
+        }
+      }
+    }
+  }
+
+  // conditions with center
+  &__center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    @each $vertical in $directions-vertical {
+      &--#{$vertical} {
+        position: absolute;
+        #{$vertical} : 0;
+        left: 50%;
+
+        transform: translateX(-50%);
+      }
+    }
+
+    @each $horizontal in $directions-horizontal {
+      &--#{$horizontal} {
+        position: absolute;
+        top: 50%;
+        #{$horizontal} : 0;
+
+        transform: translateY(-50%);
+      }
+    }
+  }
+}
+
+.sticky {
+  @supports (position: sticky) {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+  }
+}

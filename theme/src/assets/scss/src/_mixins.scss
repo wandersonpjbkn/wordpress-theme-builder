@@ -1,0 +1,383 @@
+// ==============================================
+// Mixins functions
+// ==============================================
+
+@use "sass:math";
+
+@use 'variables' as var;
+@use 'functions' as fn;
+
+// Is
+// ==============================================
+
+@mixin is-grid {
+  display: grid;
+}
+
+@mixin is-flex {
+  display: flex;
+}
+
+@mixin is-flex-wrap {
+  @include is-flex();
+
+  flex-wrap: wrap;
+}
+
+@mixin is-clickable ( $block: flex ) {
+  display: #{$block};
+  border: none;
+
+  align-items: center;
+
+  font-size: 1em;
+  text-decoration: none;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+@mixin is-button( $justify-content: center ) {
+  @include is-clickable();
+  
+  min-height: 35px;
+  padding: 5px 20px;
+  border-radius: 3px;
+  
+  justify-content: $justify-content;
+  font: {
+    family: var.$font-action, sans-serif;
+    weight: normal;
+  }
+
+  box-sizing: border-box;
+}
+
+@mixin is-vertical {
+  flex-direction: column;
+}
+
+@mixin is-full-viewport {
+  width: 100%;
+  height: auto;
+}
+
+@mixin is-icn {
+  min: {
+    width: var.$default-btn-height;
+    height: var.$default-btn-height;
+  }
+  background: {
+    color: rgba(#fff, 0);
+    repeat: no-repeat;
+    position: left center;
+    size: contain;
+    clip: content-box;
+  }
+  border: none;
+  padding: 0;
+
+  span { padding-left: var.$default-btn-height + 5px; }
+}
+
+@mixin is-hero-image( $fit: cover, $with-block: true ) {
+  height: inherit;
+
+  img {
+    @if $with-block == true {
+      display: block;
+    }
+    
+    width: 100%;
+    height: inherit;
+
+    object-fit: $fit;
+  }
+}
+
+@mixin is-nav-link {
+  @include is-clickable();
+  
+  min: {
+    height: var.$default-btn-height;
+    width: var.$default-btn-height;
+  }
+  background-color: inherit;
+  appearance: none;
+
+  color: inherit;
+}
+
+@mixin is-disabled {
+  opacity: .5;
+
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+@mixin is-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  
+  width: auto;
+  height: 30px;
+  background-color: var(--color-primary);
+  border-radius: 3px;
+  
+  user-select: none;
+
+  font: {
+    family: var.$font-sub, sans-serif;
+    size: .875em;
+  }
+
+  span {
+    --size: 22px;
+
+    position: relative;
+
+    display: inline-flex;
+    height: 100%;
+    padding: 0 10px;
+    background-color: inherit;
+    border-radius: 3px;
+
+    align-items: center;
+
+    &:after {
+      content: '';
+
+      position: absolute;
+      top: 50%;
+      right: calc(var(--size) / 2 * (-.9));
+      z-index: -1;
+
+      display: block;
+      width: var(--size);
+      height: var(--size);
+      background-color: inherit;
+      border-radius: 3px;
+
+      transform: translateY(-50%) rotate(45deg);
+    }
+  }
+
+  small { margin-right: 7px; }
+}
+
+@mixin is-nav-control {
+  @include is-flex();
+  
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;    
+
+  align-items: flex-end;
+  pointer-events: none;
+
+  @content;
+}
+
+@mixin is-nav-control-btns {
+  pointer-events: all;
+}
+
+@mixin is-avatar( $size: 180px, $positionType: absolute ) {
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  
+  overflow: hidden;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    &.lazy { @include placeholder-image( $positionType ); }
+  }
+}
+
+// General
+// ==============================================
+
+@mixin fontface( $font ) {
+  font: {
+    family: $font;
+    display: swap;
+  }
+  src:
+    url(var.$fonts-path + '/' + $font + '.woff2') format('woff2'),
+    url(var.$fonts-path + '/' + $font + '.woff') format('woff'),
+    url(var.$fonts-path + '/' + $font + '.ttf') format('truetype')
+  ;
+}
+
+@mixin theme( $var ) {
+  $theme: '';
+  
+  @if $var == 'dark' {
+    $theme: ( 'bg': var(--color-secundary), 'color': var(--color-light) );
+  }
+
+  @if $var == 'gray' {
+    $theme: ( 'bg': var(--color-terciary), 'color': var(--color-light) );
+  }
+
+  @if $var == 'meta' {
+    $theme: ( 'bg': var(--color-meta), 'color': var(--color-terciary) );
+  }
+
+  @if $var == 'light' {
+    $theme: ( 'bg': var(--color-light), 'color': var(--color-secundary) );
+  }
+
+  @if $var == 'featured' {
+    $theme: ( 'bg': var(--color-primary), 'color': var(--color-light) );
+  }
+
+  @if $var == 'shine' {
+    $theme: ( 'bg': var(--color-shine), 'color': var(--color-secundary) );
+  }
+
+  background-color: map-get( $theme, 'bg' ) !important;
+  color: map-get( $theme, 'color' );
+}
+
+@mixin breakpoints( $property-name: false, $var: false ) {
+  // default style
+  @content;
+
+  // responsive styles
+  @each $key, $break in var.$breakpoints {
+    &\@#{$key} {
+      @media (min-width: $break) {
+        @content;
+      }
+
+      // custom style for the breakpoints
+      @if $property-name != false  {
+        #{$property-name} : $var;
+      }
+    }
+  }
+}
+
+@mixin grid( $columns ) {
+  @include is-grid();
+
+  grid-template-columns: #{$columns};
+  row-gap: var.$default-padding;
+  column-gap: var.$default-padding;
+}
+
+@mixin flex-width( $i ) {
+  flex: {
+    shrink: 0;
+    grow: 0;
+    basis: calc(#{fn.decimal-round( $i * 100%, 3 )} - #{var.$default-padding})
+  }
+  margin: math.div(var.$default-padding, 2);
+}
+
+@mixin section-settings( $multiplier ) {
+  @include is-full-viewport();
+
+  padding: {
+    top: fn.decimal-round( var.$default-padding * $multiplier );
+    bottom: fn.decimal-round( var.$default-padding * $multiplier );
+  }
+  box-sizing: border-box;
+}
+
+@mixin container-settings( $is-full: false ) {
+  width: 100%;
+  padding: {
+    left: var.$default-padding;
+    right: var.$default-padding;
+  }
+
+  box-sizing: border-box;
+
+  @if $is-full { max-width: none; }
+
+  @else {
+    margin: {
+      left: auto;
+      right: auto;
+    }
+
+    max-width: var.$screen-extra-large;
+  }
+}
+
+@mixin wc-notices-color ( $color ) {
+  border-top-color: #{$color} !important;
+
+  &::before { color: #{$color} !important; }
+}
+
+@mixin default-input-target {
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="search"],
+  input[type="password"],
+  select,
+  textarea,
+  .select2-container--default .select2-selection--single,
+  .aws-container .aws-search-field { @content; }
+}
+
+@mixin placeholder-image ( $positionType: relative, $theme: 'light', $inheritHeight: true ) {
+  $url: '';
+  $bgColor: '';
+
+  @if $theme == 'light' {
+    $url: var.$imgs-path + '/placeholder.svg';
+    $bgColor: #F9F9F9;
+  }
+  @else {
+    $url: var.$imgs-path + '/placeholder-dark.svg';
+    $bgColor: #3d3d3d;
+  }
+
+  @if $inheritHeight { height: inherit; }
+
+  position: $positionType;
+  overflow: hidden;
+
+  color: rgba(#fff, 0);
+
+  &::before {
+    content: '';
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: {
+      color: $bgColor;
+      size: 100% auto;
+      repeat: no-repeat;
+      position: center;
+      image: url(#{$url});
+    };
+    
+    transform: translate(-50%, -50%);
+  }
+}

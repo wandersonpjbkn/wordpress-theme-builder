@@ -1,0 +1,26 @@
+// ==============================================
+// Category page
+// ==============================================
+
+@use 'variables' as var;
+@use 'mixins' as mix;
+
+.archive.woocommerce {
+  main {
+    border-top: 3px solid var(--color-primary);
+
+    img {
+      height: 100%;
+    }
+
+    .slide__large { overflow-x: hidden; }
+  }
+
+  .woocommerce-result-count,
+  .orderby {
+    margin: 0;
+    font-size: .875em;
+  }
+
+  .woocommerce-ordering { margin-left: auto; }
+}

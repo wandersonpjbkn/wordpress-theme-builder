@@ -1,0 +1,63 @@
+// ==============================================
+// Shipping style
+// ==============================================
+
+@use 'mixins' as mix;
+
+.woocommerce ul#shipping_method {
+  input {
+    display: none;
+
+    &:checked ~ label {
+      color: var(--color-primary);
+
+      &::before { background-color: var(--color-primary); }
+    }
+  }
+
+  li label {
+    $recuo: 20px;
+
+    @include mix.is-clickable( $block: grid );
+
+    position: relative;
+
+    grid-template-areas: "info price";
+    row-gap: 10px;
+    column-gap: 10px;
+    padding-left: $recuo;
+    align-items: center;
+
+    line-height: 100%;
+
+    &::before {
+      $size: 10px;
+
+      content: '';
+
+      position: absolute;
+      top: 50%;
+      left: 0;
+
+      display: block;
+      width: $size;
+      height: $size;
+      border-radius: 50%;
+      background-color: var(--color-meta);
+
+      transform: translateY(-50%);
+    }
+  }
+
+  li label > span:not([class*="woocommerce"]) {
+    display: grid;
+
+    span:first-child { font-size: .875em; }
+
+    span:last-child { font-size: .75em; }
+  }
+
+  li label > span[class*="woocommerce"] {
+    text-align: right;
+  }
+}

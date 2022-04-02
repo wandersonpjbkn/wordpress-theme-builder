@@ -1,0 +1,12 @@
+// ==============================================
+// Heigths styles
+// ==============================================
+
+@use 'mixins' as mix;
+
+.height {
+  &__small { @include mix.breakpoints { height: 150px } }
+  &__medium  { @include mix.breakpoints { height: 300px } }
+  &__large { @include mix.breakpoints { height: 400px } }
+  &__xlarge { @include mix.breakpoints { height: 500px } }
+}

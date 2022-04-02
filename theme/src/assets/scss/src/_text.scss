@@ -1,0 +1,19 @@
+// ==============================================
+// Text styles
+// ==============================================
+
+p {
+  margin: {
+    top: 0;
+    bottom: 15px;
+  }
+}
+
+.text {
+  &__meta {
+    font-size: .8em;
+    color: var(--color-meta);
+  }
+
+  &__center { text-align: center; }
+}

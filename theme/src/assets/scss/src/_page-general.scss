@@ -1,0 +1,96 @@
+// ==============================================
+// General pages style
+// ==============================================
+
+@use 'variables' as var;
+@use 'mixins' as mix;
+
+.theme {
+  background-color: var(--color-white);
+
+  main { min-height: 65vh; }
+
+  &[class*="woocommerce"] {
+    width: 100%;
+
+    font: {
+      family: var.$font-normal, sans-serif;
+      size: var(--default-font-size);
+      weight: normal;
+      display: swap;
+    }
+  }
+}
+
+.aws-search-field {
+  @media (min-width: var.$screen-medium) {
+    min-width: 250px;
+  }
+}
+
+.tns-visually-hidden { display: none; }
+
+.woocommerce {
+  &-message { @include mix.wc-notices-color( var(--color-success) );  }
+  &-error { @include mix.wc-notices-color( var(--color-warning) );  }
+  &-info { @include mix.wc-notices-color( var(--color-alert) );  }
+}
+
+#tab-description, 
+.page-template-default .content,
+.page-template-page .content {
+  ul,
+  ol {
+    li {
+      &:not(:last-child){ margin-bottom: 10px; }
+
+      &:before {
+        display: inline-block;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  ul li::before {
+    content: '';
+
+    position: relative;
+    top: 50%;
+    
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+
+    transform: translateY(-50%);
+  }
+
+  ol {
+    counter-reset: count;
+
+    li::before {
+      counter-increment: count;
+      content: counter(count) '.';
+
+      color: var(--color-primary);
+    }
+  }
+
+  ol,
+  ul,
+  figure {
+    margin: {
+      top:30px;
+      bottom: 30px;
+    };
+
+    + * { margin-top:0 }
+  }
+}
+
+.woocommerce-input-wrapper {
+  display: block;
+  width: 100%;
+
+  span.select2 { width: inherit !important; }
+}

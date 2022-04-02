@@ -1,0 +1,23 @@
+// ==============================================
+// General styles
+// ==============================================
+
+@use 'variables' as var;
+
+// Body
+// ==============================================
+
+body {
+  font: {
+    family: var.$font-default;
+    size: var(--default-font-size);
+  }
+  color: var(--color-secundary);
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

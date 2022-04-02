@@ -1,0 +1,84 @@
+// ==============================================
+// Structure styles
+// ==============================================
+
+@use 'variables' as var;
+@use 'mixins' as mix;
+
+.section {
+  // default
+  @include mix.section-settings( $multiplier: 0 );
+
+  // collapse next (default)
+  &:not(.nocollapse) + .section { padding-top: 0; }
+
+  // collapse next with custom collapse class
+  &.collapse-next + section:not(.nocollapse) { padding-top: 0; }
+
+  // variations with size
+  $sizes: ( 'small': .667, 'medium': 1, 'large': 2 );
+  @each $key, $size in $sizes {
+    &__#{$key} {
+      @include mix.section-settings( $multiplier: $size );
+
+      // collapse next (default)
+      &:not(.nocollapse) + .section__#{$key} { padding-top: 0; }
+
+      // collapse next with custom collapse class
+      &.collapse-next + section { padding-top: 0; }
+    }
+  }
+
+  // fix large padding on small screen
+  @media (max-width: var.$screen-small) {
+    &__large {
+      padding: {
+        top: var.$default-padding;
+        bottom: var.$default-padding;
+      };
+    }
+  }
+
+  // xlarge screens
+  @media (min-width: var.$screen-extra-large) {
+    $padding: 40px;
+
+    padding: {
+      left: $padding;
+      right: $padding;
+    }
+  }
+}
+
+.container {  
+  @include mix.container-settings();
+
+  &--expand { @include mix.container-settings( $is-full: true ); }
+}
+
+.sidebar {
+  @media (min-width: var.$screen-medium) {
+    max-width: 280px;
+  }
+
+  .term-description {
+    font-size: .75em;
+    line-height: 140%;
+    color: var(--color-meta);
+  }
+}
+
+.divider:not(li) {
+  @include mix.container-settings();
+  
+  height: 1px;
+  background: {
+    color: var(--color-terciary);
+    clip: content-box;
+  }
+
+  margin: {
+    top: 20px;
+    bottom: 5px;
+  }
+}

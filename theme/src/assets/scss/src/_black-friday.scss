@@ -1,0 +1,64 @@
+@use "sass:math";
+
+@use 'variables' as var;
+
+:root {
+  --bf-label-size: 50px;
+}
+
+.bf {
+  // Banner
+  .carousel__slide { height: calc(100vw * .3671875) }
+
+  // Card label
+  .card__product__label {
+    top: calc((var(--bf-label-size) - 30px) / 2);
+    left: calc(var(--bf-label-size) + 5px);
+
+    &::before {
+      content: '';
+
+      position: absolute;
+      top: 50%;
+      left: calc((var(--bf-label-size) + 5px) * (-1));
+
+      display: block;
+      width: var(--bf-label-size);
+      height: var(--bf-label-size);
+      background: {
+        color: rgba(#fff, 0);
+        image: url('');
+        repeat: no-repeat;
+        position: center;
+        size: contain;
+      };
+
+      transform: translateY(-50%);
+      user-select: none;
+    }
+  }
+
+  // Dymanic card effects
+  .card__dynamic__image {
+    border-bottom-color: rgba(#fff, 0);
+
+    &:hover img { transform: none; }
+  }
+
+  // Dymanic card layout #1 aspect ratio
+  .card__dynamic {
+    &.md--1 {
+      $prime-width: var.$screen-extra-large - (var.$default-padding * 2);
+
+      $width: 1600;
+      $height: 500;
+      $ratio: math.div($height, $width);
+
+      height: calc(#{$ratio} * calc(100vw - #{var.$default-padding * 2}));
+
+      @media (min-width: #{$prime-width}) {
+        height: ($ratio * $prime-width);
+      }
+    }
+  }
+}

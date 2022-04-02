@@ -1,0 +1,191 @@
+// ==============================================
+// Card Dynamic styles
+// ==============================================
+
+@use "sass:math";
+
+@use 'variables' as var;
+@use 'mixins' as mix;
+
+.card__dynamic {
+  @include mix.is-clickable( $block: grid );
+
+  row-gap: 5px;
+  column-gap: 5px;
+  color: inherit;
+  overflow: hidden;
+
+  &__image {
+    @include mix.is-hero-image( $with-block: false );
+
+    border-bottom: #{var.$default-bottom-width} solid rgba(#fff, 0);
+    box-sizing: border-box;
+    overflow: hidden;
+    
+    // &:hover img { transform: scale(1.1); }
+
+    img {
+      height: inherit;
+      // transition: transform .25s ease-in;
+
+      &.lazy { @include mix.placeholder-image() }
+    }
+  }
+
+  &__title {
+    margin-bottom: 5px;
+    display: block;
+
+    font: {
+      family: var.$font-sub, sans-serif;
+      size: 1.125em;
+    }
+    text-transform: uppercase;
+    color: var(--color-light);
+
+    @media (min-width: var.$screen-small) {
+      font-size: 1.375em;
+    }
+  }
+
+  &__cta {
+    @include mix.is-button();
+
+    background-color: var(--color-primary);
+    color: var(--color-light);
+  }
+
+  &.md {
+    $striped-screen-extra-large: math.div(var.$screen-extra-large, 1px);
+    $striped-default-padding: math.div(var.$default-padding, 1px);
+
+    $prime-width: $striped-screen-extra-large - ($striped-default-padding * 2);
+
+    &--1 {
+      $width: 1600;
+      $height: 500;
+      $ratio: math.div($height, $width);
+
+      height: calc(#{$ratio} * calc(100vw - #{var.$default-padding * 2}));
+
+      @media (min-width: #{$prime-width * 1px}) {
+        height: (($ratio * $prime-width) * 1px);
+      }
+    }
+
+    &--2 {
+      $width: math.div(($prime-width - $striped-default-padding), 2);
+      $height: 298;
+      $ratio: math.div($height, $width);
+
+      height: calc(#{$ratio} * calc(100vw - #{var.$default-padding * 2}));
+
+      @media (min-width: var.$screen-small) {
+        height: calc(#{$ratio} * calc(calc(100vw - #{var.$default-padding * 3}) / 2));
+      }
+
+      @media (min-width: #{$prime-width * 1px}) {
+        height: ($height * 1px);
+      }
+    }
+
+    &--3 {
+      $width: math.div(($prime-width - ($striped-default-padding * 2)), 3);
+      $height: 298;
+      $ratio: math.div($height, $width);
+
+      height: calc(#{$ratio} * calc(100vw - #{var.$default-padding * 2}));
+
+      @media (min-width: var.$screen-small) {
+        height: calc(#{$ratio} * calc(calc(100vw - #{var.$default-padding * 4}) / 3));
+      }
+
+      @media (min-width: #{$prime-width * 1px}) {
+        height: ($height * 1px);
+      }
+    }
+
+    &--3-long {
+      $width: math.div(($prime-width - ($striped-default-padding * 2)), 3);
+      $height: 440;
+      $ratio: math.div($height, $width);
+
+      height: calc(#{$ratio} * calc(100vw - #{var.$default-padding * 2}));
+
+      @media (min-width: var.$screen-small) {
+        $height: 782;
+        $ratio: math.div($height, $width);
+
+        height: calc(#{$ratio} * calc(calc(100vw - #{var.$default-padding * 4}) / 3));
+      }
+
+      @media (min-width: #{$prime-width * 1px}) {
+        height: ($height * 1px);
+      }
+    }
+
+    &--1-3 {
+      $width: math.div(($prime-width - $striped-default-padding), 3);
+      $height: 298;
+      $ratio: math.div($height, $width);
+
+      height: calc(#{$ratio} * calc(100vw - #{var.$default-padding * 2}));
+
+      @media (min-width: var.$screen-medium) {
+        height: calc(#{$ratio} * calc(calc(100vw - #{var.$default-padding * 3}) / 3));
+      }
+
+      @media (min-width: #{$prime-width * 1px}) {
+        height: ($height * 1px);
+      }
+    }
+
+    &--2-3 {
+      $width: (math.div(($prime-width - $striped-default-padding), 3)) * 2;
+      $height: 298;
+      $ratio: math.div($height, $width);
+
+      height: calc(#{$ratio} * calc(100vw - #{var.$default-padding * 2}));
+
+      @media (min-width: var.$screen-medium) {
+        height: calc(#{$ratio} * calc(calc(calc(100vw - #{var.$default-padding * 3}) / 3)) * 2);
+      }
+
+      @media (min-width: #{$prime-width * 1px}) {
+        height: ($height * 1px);
+      }
+    }
+
+    &--1-5 {
+      $width: (math.div(($prime-width - ($striped-default-padding * 2)), 5)) - 9;
+      $height: 183;
+      $ratio: math.div($height, $width);
+
+      height: calc(#{$ratio} * calc(calc(100vw - #{var.$default-padding * 3}) / 2));
+
+      @media (min-width: var.$screen-small) {
+        height: calc(#{$ratio} * calc(calc(calc(100vw - #{var.$default-padding * 4}) / 5) - 9px));
+      }
+
+      @media (min-width: #{$prime-width * 1px}) {
+        height: ($height * 1px);
+      }
+    }
+
+    &--3-5 {
+      $width: ((math.div(($prime-width - ($striped-default-padding * 2)), 5)) * 3) + 18;
+      $height: 398;
+      $ratio: math.div($height, $width);
+
+      height: calc(#{$ratio} * calc(100vw - #{var.$default-padding * 2}));
+
+      @media (min-width: var.$screen-small) {
+        height: calc(#{$ratio} * calc(calc(calc(calc(100vw - #{var.$default-padding * 4}) / 5) * 3) + 18px));
+      }
+
+      @media (min-width: #{$prime-width * 1px}) {
+        height: ($height * 1px);
+      }
+    }
+  }
+}

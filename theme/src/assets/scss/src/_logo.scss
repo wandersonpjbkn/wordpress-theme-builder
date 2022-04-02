@@ -1,0 +1,50 @@
+// ==============================================
+// Logo style
+// ==============================================
+
+@use 'variables' as var;
+
+.logo {
+  margin: 0;
+
+  color: inherit;
+  user-select: none;
+
+  a {
+    display: flex;    
+    color: inherit;
+  }
+
+  img {
+    position: relative;
+    
+    &.js-mobile { filter: invert(100%); }
+  }
+}
+
+header .logo img {
+  &.js-desktop,
+  &.js-mobile {
+    margin: {
+      top: var(--logo-current-margin);
+      bottom: var(--logo-current-margin);
+    }
+
+    width: auto;
+    height: var(--logo-current-height);
+  }
+}
+
+footer .logo img {
+  margin: 0 auto;
+  height: 50px;
+
+  @media (min-width: var.$screen-small) {
+    margin: {
+      top: 10px;
+      bottom: 10px;
+    };
+
+    height: 15px;
+  }
+}

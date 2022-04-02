@@ -1,0 +1,122 @@
+// ==============================================
+// Notification style
+// ==============================================
+
+@use "sass:math";
+
+@use 'variables' as var;
+@use 'mixins' as mix;
+
+.alert {
+  &.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+
+    [class*='__notify'],
+    [class*='__canvas'] {
+      position: absolute;
+      display: block;
+    }
+
+    [class*='__notify'] {
+      width: 80vw;
+      max-width: 360px;
+      border-radius: 10px;
+      background-color: var(--color-white);
+      box-shadow: 0 0 20px -5px var(--color-darkmeta);
+  
+      animation: fade-grow .35s ease;
+    }
+
+    [class*='__ctrl'] { background-color: var(--color-light); }
+
+    [class*='__btn'] {
+      background-color: var(--color-alert);
+      color: var(--color-light);
+    }
+
+    [class*='__link'] { display: none; }
+  }
+
+  &.inline {
+    margin-top: var.$default-padding;
+
+    border-top: 3px solid var(--color-alert);
+    background-color: #f7f6f7;
+
+    [class*='__notify'] { display: flex; }
+
+    [class*='__ctrl'] { margin-left: auto; }
+
+    [class*='__btn'] { display: none; }
+
+    [class*='__link'] {
+      background-color: #e9e9e9;
+      color: var(--color-secundary);
+    }
+  }
+
+  &.countdown {
+    [class*='__ctrl'] { display: none; }
+
+    [class*='__message'] {
+      text-align: center;
+      justify-content: center;
+    }
+  }
+
+  &__canvas {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--color-darkmeta);
+    opacity: .35;
+  }
+  
+  &__notify {
+    display: none;    
+    overflow: hidden;
+  }
+
+  &__container,
+  &__ctrl { padding: math.div(var.$default-padding, 2); }
+
+  &__container { color: var(--color--terciary); }
+
+  &__ctrl {
+    display: flex;
+    align-items: center;
+  }
+
+  &__title,
+  &__message {
+    display: flex;
+    align-items: center;
+
+    color: inherit;
+
+    [class*='--icn'] {
+      $size: 35px;
+
+      margin: 0 0 0 7.5px;
+
+      width: $size;
+      height: $size;
+    }
+  }
+
+  &__btn,
+  &__link {
+    @include mix.is-button();
+
+    margin-left: auto;
+  }
+}
